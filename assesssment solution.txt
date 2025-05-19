@@ -1,0 +1,115 @@
+SQL Assessment Solution
+
+The plans_plan table contains financial plan information with many fields including:
+
+    id: Unique identifier
+
+    name: Plan name
+
+    amount: Plan amount
+
+    start_date: When the plan started
+
+    status_id: Plan status
+
+    owner_id: Who owns the plan
+
+    plan_type_id: Type of plan
+
+Assessment Questions
+
+Since you haven't provided specific assessment questions, I'll demonstrate some common SQL queries that would be useful for analyzing this financial plans data:
+1. Count of Plans by Type
+sql
+
+SELECT 
+    plan_type_id, 
+    COUNT(*) as plan_count
+FROM 
+    plans_plan
+GROUP BY 
+    plan_type_id
+ORDER BY 
+    plan_count DESC;
+
+2. Total Amount Saved by Plan Status
+sql
+
+SELECT 
+    status_id, 
+    SUM(amount) as total_amount
+FROM 
+    plans_plan
+GROUP BY 
+    status_id
+ORDER BY 
+    total_amount DESC;
+
+3. Most Recent Plans Created
+sql
+
+SELECT 
+    name, 
+    created_on, 
+    amount
+FROM 
+    plans_plan
+ORDER BY 
+    created_on DESC
+LIMIT 10;
+
+4. Plans with Highest Goals
+sql
+
+SELECT 
+    name, 
+    goal
+FROM 
+    plans_plan
+WHERE 
+    goal > 0
+ORDER BY 
+    goal DESC
+LIMIT 10;
+
+5. Active Plans (assuming status_id=1 is active)
+sql
+
+SELECT 
+    COUNT(*) as active_plans
+FROM 
+    plans_plan
+WHERE 
+    status_id = 1;
+
+6. Dollar Stash Plans Analysis
+sql
+
+SELECT 
+    COUNT(*) as dollar_stash_count,
+    SUM(amount) as total_amount
+FROM 
+    plans_plan
+WHERE 
+    name = 'Dollar Stash';
+
+7. Plans Created in the Last Year
+sql
+
+SELECT 
+    COUNT(*) as recent_plans
+FROM 
+    plans_plan
+WHERE 
+    created_on >= DATE_SUB(CURRENT_DATE(), INTERVAL 1 YEAR);
+
+8. Average Plan Amount by Currency
+sql
+
+SELECT 
+    currency_id,
+    AVG(amount) as avg_amount
+FROM 
+    plans_plan
+GROUP BY 
+    currency_id;
